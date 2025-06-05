@@ -4,7 +4,7 @@ import {
   addNewTagsFromShortSyntax,
   addTask,
   moveToOtherProject,
-  scheduleTask,
+  scheduleTaskWithTime,
   updateTask,
   updateTaskTags,
 } from './task.actions';
@@ -35,6 +35,9 @@ import { DialogConfirmComponent } from '../../../ui/dialog-confirm/dialog-confir
 import { LayoutService } from '../../../core-ui/layout/layout.service';
 import { DEFAULT_GLOBAL_CONFIG } from '../../config/default-global-config.const';
 import { getWorklogStr } from '../../../util/get-work-log-str';
+import { WorkContextService } from '../../work-context/work-context.service';
+
+import { INBOX_PROJECT } from '../../project/project.const';
 
 @Injectable()
 export class ShortSyntaxEffects {
@@ -46,6 +49,7 @@ export class ShortSyntaxEffects {
   private _snackService = inject(SnackService);
   private _matDialog = inject(MatDialog);
   private _layoutService = inject(LayoutService);
+  private _workContextService = inject(WorkContextService);
 
   shortSyntax$: any = createEffect(() =>
     this._actions$.pipe(
@@ -71,10 +75,12 @@ export class ShortSyntaxEffects {
         );
       }),
       withLatestFrom(
-        this._tagService.tags$,
+        this._tagService.tagsNoMyDayAndNoList$,
         this._projectService.list$,
         this._globalConfigService.misc$.pipe(
           map((misc) => misc.defaultProjectId),
+          // TODO re-check
+          filter(() => this._workContextService.activeWorkContextId !== INBOX_PROJECT.id),
           concatMap((defaultProjectId) =>
             defaultProjectId
               ? this._projectService.getByIdOnce$(defaultProjectId).pipe(
@@ -133,10 +139,10 @@ export class ShortSyntaxEffects {
             isIgnoreShortSyntax: true,
           }),
         );
-        if (taskChanges.plannedAt && !taskChanges.reminderId) {
-          const { plannedAt } = taskChanges;
+        if (taskChanges.dueWithTime && !taskChanges.reminderId) {
+          const { dueWithTime } = taskChanges;
           if (taskChanges.hasPlannedTime === false) {
-            const plannedDay = new Date(plannedAt);
+            const plannedDay = new Date(dueWithTime);
             const plannedDayInIsoFormat = getWorklogStr(plannedDay);
             const plan = PlannerActions.planTaskForDay({
               task,
@@ -144,11 +150,11 @@ export class ShortSyntaxEffects {
             });
             actions.push(plan);
           } else {
-            const schedule = scheduleTask({
+            const schedule = scheduleTaskWithTime({
               task,
-              plannedAt,
+              dueWithTime: dueWithTime,
               remindAt: remindOptionToMilliseconds(
-                plannedAt,
+                dueWithTime,
                 TaskReminderOptionId.AtStart,
               ),
               isMoveToBacklog: false,
@@ -211,21 +217,24 @@ export class ShortSyntaxEffects {
       // needed cause otherwise task gets the focus after blur & hide
       tap((v) => this._layoutService.hideAddTaskBar()),
       concatMap(({ taskId, newTitles }) => {
+        //Making sure the user isnt trying to create two tags with the same name
+        const uniqueNewTitles = [...new Set(newTitles)];
+
         return this._matDialog
           .open(DialogConfirmComponent, {
             restoreFocus: true,
             autoFocus: true,
             data: {
               okTxt:
-                newTitles.length > 1
+                uniqueNewTitles.length > 1
                   ? T.F.TASK.D_CONFIRM_SHORT_SYNTAX_NEW_TAGS.OK
                   : T.F.TASK.D_CONFIRM_SHORT_SYNTAX_NEW_TAG.OK,
               message:
-                newTitles.length > 1
+                uniqueNewTitles.length > 1
                   ? T.F.TASK.D_CONFIRM_SHORT_SYNTAX_NEW_TAGS.MSG
                   : T.F.TASK.D_CONFIRM_SHORT_SYNTAX_NEW_TAG.MSG,
               translateParams: {
-                tagsTxt: `<strong>${newTitles.join(', ')}</strong>`,
+                tagsTxt: `<strong>${uniqueNewTitles.join(', ')}</strong>`,
               },
             },
           })
@@ -237,7 +246,7 @@ export class ShortSyntaxEffects {
               const actions: any[] = [];
               if (isConfirm) {
                 const newTagIds = [...task.tagIds];
-                newTitles.forEach((newTagTitle) => {
+                uniqueNewTitles.forEach((newTagTitle) => {
                   const { action, id } = this._tagService.getAddTagActionAndId({
                     title: newTagTitle,
                   });
