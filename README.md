@@ -1,6 +1,9 @@
 <a href="https://super-productivity.com/">
-  <img align="center" alt="Banner" src="screens/banner-bw.png" />
+  <img align="center" alt="Banner" src="screens/banner.png" />
 </a>
+
+<br>
+<br>
 
 <p align="center">
 <strong>An advanced todo list app with timeboxing & time tracking capabilities that supports importing tasks from your calendar, Jira, GitHub and others</strong>
@@ -15,6 +18,12 @@
     <img src="https://github.com/user-attachments/assets/15384cae-8ba3-4474-bc2c-13e7765c2dd1" alt="animated" />
 </a>
 </p>
+<br>
+
+<p align="center">
+      <img src="https://repobeats.axiom.co/api/embed/61f9b9de1bc34a2b526faf6d356120bdae7f4249.svg" alt="analytics" />
+</p>
+
 <br>
 <br>
 
@@ -216,6 +225,7 @@ sudo snap set core experimental.refresh-app-awareness=true
 </a>
 
 #### Flatpak - Most distributions
+
 Must install Flatpak first. See [setup instructions for all distributions](https://flathub.org/setup).
 
 Install via command-line:
@@ -239,6 +249,11 @@ git clone https://aur.archlinux.org/superproductivity-bin.git
 cd superproductivity-bin
 makepkg -si
 ```
+
+#### AppImage
+
+If you encounter problems, please have a look here:
+https://github.com/johannesjo/super-productivity/issues/3193#issuecomment-2131315513
 
 ### MacOS
 
@@ -302,15 +317,17 @@ There are several ways to help.
 
 8. **[Translations](https://github.com/johannesjo/super-productivity/tree/master/src/assets/i18n), Icons, etc.**: You don't have to be a programmer to help. Some of the icons really need improvement and many of the translations could use some love.
 
-[![inlang status badge](https://badge.inlang.com/?url=github.com/johannesjo/super-productivity)](https://fink.inlang.com/github.com/johannesjo/super-productivity?ref=badge)
-
-You can use the Fink Localization Editor to edit, lint, and add translations for different languages. [Contribute via fink Guide](https://inlang.com/g/6ddyhpoi).
+[//]: # '[![inlang status badge](https://badge.inlang.com/?url=github.com/johannesjo/super-productivity)](https://fink.inlang.com/github.com/johannesjo/super-productivity?ref=badge)'
+[//]: #
+[//]: # 'You can use the Fink Localization Editor to edit, lint, and add translations for different languages. [Contribute via fink Guide](https://inlang.com/g/6ddyhpoi).'
 
 9. **[Sponsor the project](https://github.com/sponsors/johannesjo)**
 
 ### Running the development server
 
-To run the development server you need to have Node installed at least in the version 14. Go to https://nodejs.org for installation instructions.
+If you don't want or cannot use Codespaces for any reason, here are the instructions for local development.
+
+To run the development server you need to have Node installed (version 20 or higher required). Go to https://nodejs.org for installation instructions.
 
 **Clone repo**
 
@@ -342,6 +359,14 @@ ng serve
 # in a new console tab
 npm start
 ```
+
+### :rocket: Try with GitHub Codespaces
+
+You can develop and run Super Productivity instantly in your browser using [GitHub Codespaces](https://github.com/features/codespaces): no need to install Node.js or any dependencies locally. On the top of the repository page, click on "Code", "Codespaces", and then on the plus button, "Create Codespace".
+
+Your VS Code settings can sync as usual, so your environment feels just like home. The development server starts automatically, and the dev container auto-forwards the port. Open the "Ports" tab and Ctrl+Click the available link to preview your running Super Productivity app.
+
+Further customizations to the Codespaces dev container can be performed by editing the .devcontainers/devcontainers.json file according to the [Codespaces documentation](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers#creating-a-custom-dev-container-configuration) and the [devcontainers full specification](https://containers.dev/implementors/spec/).
 
 ### Packaging the app
 

@@ -3,11 +3,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   ElementRef,
   inject,
   input,
   OnDestroy,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { TaskService } from '../tasks/task.service';
@@ -32,10 +35,7 @@ import { T } from '../../t.const';
 import { ImprovementService } from '../metric/improvement/improvement.service';
 import { workViewProjectChangeAnimation } from '../../ui/animations/work-view-project-change.ani';
 import { WorkContextService } from '../work-context/work-context.service';
-import { TaskRepeatCfgService } from '../task-repeat-cfg/task-repeat-cfg.service';
-import { TaskRepeatCfg } from '../task-repeat-cfg/task-repeat-cfg.model';
 import { ProjectService } from '../project/project.service';
-import { AddTasksForTomorrowService } from '../add-tasks-for-tomorrow/add-tasks-for-tomorrow.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RightPanelComponent } from '../right-panel/right-panel.component';
 import { CdkDropListGroup } from '@angular/cdk/drag-drop';
@@ -52,6 +52,16 @@ import { BacklogComponent } from './backlog/backlog.component';
 import { AsyncPipe } from '@angular/common';
 import { MsToStringPipe } from '../../ui/duration/ms-to-string.pipe';
 import { TranslatePipe } from '@ngx-translate/core';
+import {
+  flattenTasks,
+  selectOverdueTasksWithSubTasks,
+} from '../tasks/store/task.selectors';
+import { CollapsibleComponent } from '../../ui/collapsible/collapsible.component';
+import { SnackService } from '../../core/snack/snack.service';
+import { Store } from '@ngrx/store';
+import { planTasksForToday } from '../tag/store/tag.actions';
+import { TODAY_TAG } from '../tag/tag.const';
+import { LS } from '../../core/persistence/storage-keys.const';
 
 @Component({
   selector: 'work-view',
@@ -83,6 +93,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     AsyncPipe,
     MsToStringPipe,
     TranslatePipe,
+    CollapsibleComponent,
   ],
 })
 export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
@@ -92,13 +103,16 @@ export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
   improvementService = inject(ImprovementService);
   layoutService = inject(LayoutService);
   workContextService = inject(WorkContextService);
-  private _taskRepeatCfgService = inject(TaskRepeatCfgService);
   private _activatedRoute = inject(ActivatedRoute);
   private _projectService = inject(ProjectService);
   private _cd = inject(ChangeDetectorRef);
-  private _addTasksForTomorrowService = inject(AddTasksForTomorrowService);
+  private _store = inject(Store);
+  private _snackService = inject(SnackService);
 
   // TODO refactor all to signals
+  overdueTasks = toSignal(this._store.select(selectOverdueTasksWithSubTasks), {
+    initialValue: [],
+  });
   undoneTasks = input<TaskWithSubTasks[]>([]);
   doneTasks = input<TaskWithSubTasks[]>([]);
   backlogTasks = input<TaskWithSubTasks[]>([]);
@@ -108,6 +122,13 @@ export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
   todayRemainingInProject = toSignal(this.workContextService.todayRemainingInProject$);
   estimateRemainingToday = toSignal(this.workContextService.estimateRemainingToday$);
   workingToday = toSignal(this.workContextService.workingToday$);
+  selectedTaskId = toSignal(this.taskService.selectedTaskId$);
+  isOnTodayList = toSignal(this.workContextService.isToday$);
+  isDoneHidden = signal(!!localStorage.getItem(LS.DONE_TASKS_HIDDEN));
+
+  isShowOverduePanel = computed(
+    () => this.isOnTodayList() && this.overdueTasks().length > 0,
+  );
 
   isShowTimeWorkedWithoutBreak: boolean = true;
   splitInputPos: number = 100;
@@ -130,11 +151,6 @@ export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
       switchMap((el) => fromEvent(el, 'scroll')),
     );
 
-  // eslint-disable-next-line no-mixed-operators
-  private _tomorrow: number = Date.now() + 24 * 60 * 60 * 1000;
-  repeatableScheduledForTomorrow$: Observable<TaskRepeatCfg[]> =
-    this._taskRepeatCfgService.getRepeatTableTasksDueForDayOnly$(this._tomorrow);
-
   private _subs: Subscription = new Subscription();
   private _switchListAnimationTimeout?: number;
 
@@ -146,10 +162,40 @@ export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  ngOnInit(): void {
-    // eslint-disable-next-line no-mixed-operators
-    this._tomorrow = Date.now() + 24 * 60 * 60 * 1000;
+  constructor() {
+    // Setup effect to track task changes
+    effect(() => {
+      const currentSelectedId = this.selectedTaskId();
+      if (!currentSelectedId) return;
 
+      const undoneArr = flattenTasks(this.undoneTasks());
+      if (undoneArr.some((t) => t.id === currentSelectedId)) return;
+
+      const doneArr = flattenTasks(this.doneTasks());
+      if (doneArr.some((t) => t.id === currentSelectedId)) return;
+
+      if (
+        this.workContextService.activeWorkContextId === TODAY_TAG.id &&
+        this.overdueTasks().length > 0 &&
+        flattenTasks(this.overdueTasks()).some((t) => t.id === currentSelectedId)
+      )
+        return;
+
+      // if task really is gone
+      this.taskService.setSelectedId(null);
+    });
+
+    effect(() => {
+      const isExpanded = this.isDoneHidden();
+      if (isExpanded) {
+        localStorage.setItem(LS.DONE_TASKS_HIDDEN, 'true');
+      } else {
+        localStorage.removeItem(LS.DONE_TASKS_HIDDEN);
+      }
+    });
+  }
+
+  ngOnInit(): void {
     // preload
     // TODO check
     // this._subs.add(this.workContextService.backlogTasks$.subscribe());
@@ -196,5 +242,27 @@ export class WorkViewComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetBreakTimer(): void {
     this.takeABreakService.resetTimer();
+  }
+
+  moveDoneToArchive(): void {
+    const doneTasks = this.doneTasks();
+    this.taskService.moveToArchive(doneTasks);
+    this._snackService.open({
+      msg: T.F.TASK.S.MOVED_TO_ARCHIVE,
+      type: 'SUCCESS',
+      ico: 'done_all',
+      translateParams: {
+        nr: doneTasks.length,
+      },
+    });
+  }
+
+  addAllOverdueToMyDay(): void {
+    const overdueTasks = this.overdueTasks();
+    this._store.dispatch(
+      planTasksForToday({
+        taskIds: overdueTasks.map((t) => t.id),
+      }),
+    );
   }
 }

@@ -26,7 +26,6 @@
   },
   "CONFIRM": {
     "AUTO_FIX": "Tus datos parecen estar dañados. ¿Quieres intentar solucionarlo automáticamente? Esto puede resultar en una pérdida parcial de datos.",
-    "DELETE_STRAY_BACKUP": "¿Quieres eliminar el reverso para evitar ver este diálogo?",
     "RELOAD_AFTER_IDB_ERROR": "No se puede acceder a la base de datos :( Las posibles causas son una actualización de la aplicación en el fondo o poco espacio en el disco. Presione OK para volver a cargar la aplicación (puede requerir el reinicio manual de la aplicación en algunas plataformas).",
     "RESTORE_FILE_BACKUP": "Parece que NO HAY DATOS, pero hay copias de seguridad disponibles en \"{{dir}}\". ¿Quiere restaurar la última copia de seguridad de {{from}}?",
     "RESTORE_FILE_BACKUP_ANDROID": "Parece que NO HAY DATOS, pero hay una copia de seguridad disponible. ¿Quieres cargarla?",
@@ -77,6 +76,10 @@
       },
       "FORM": {
         "ADD_NEW_PANEL": "Agregar nuevo panel",
+        "BACKLOG_TASK_FILTER_ALL": "Todos",
+        "BACKLOG_TASK_FILTER_NO_BACKLOG": "Excluir",
+        "BACKLOG_TASK_FILTER_ONLY_BACKLOG": "Solo trabajo pendiente",
+        "BACKLOG_TASK_FILTER_TYPE": "Tareas de trabajo pendiente",
         "COLUMNS": "Columnas",
         "TAGS_EXCLUDED": "Etiquetas excluidas",
         "TAGS_REQUIRED": "Etiquetas requeridas",
@@ -95,32 +98,6 @@
         "EDIT_BOARD": "Editar tablero",
         "NO_PANELS_BTN": "Configurar tablero",
         "NO_PANELS_MSG": "Este tablero no tiene paneles configurados. Agrega algunos paneles."
-      }
-    },
-    "BOOKMARK": {
-      "BAR": {
-        "ADD": "Agregar marcador",
-        "DROP": "Suelta aquí para agregar un marcador",
-        "EDIT": "Editar marcadores",
-        "NO_BOOKMARKS": "No tienes marcadores de proyectos. Agregue una a través de arrastrar y soltar o haciendo clic en el ícono ''."
-      },
-      "DIALOG_EDIT": {
-        "ADD_BOOKMARK": "Agregar marcador",
-        "EDIT_BOOKMARK": "Editar marcador",
-        "LABELS": {
-          "COMMAND": "Comando",
-          "FILE": "Ruta de archivo",
-          "IMG": "Imagen",
-          "LINK": "Url"
-        },
-        "SELECT_ICON": "Selecciona un ícono",
-        "SELECT_TYPE": "Selecciona un tipo",
-        "TYPES": {
-          "COMMAND": "Comando (comando shell personalizado)",
-          "FILE": "Archivo (abierto por la aplicación predeterminada del sistema)",
-          "IMG": "Imagen (mostrada como miniatura)",
-          "LINK": "Enlace (se abre en el navegador)"
-        }
       }
     },
     "CALDAV": {
@@ -170,6 +147,12 @@
         "UPDATE_SECTION": "Ajustes actualizados para <strong>{{sectionKey}}</strong>"
       }
     },
+    "D_RATE": {
+      "A_HOW": "Cómo y dónde calificar",
+      "BTN_DONT_BOTHER": "No me molestes otra vez",
+      "TITLE": "🙈 Por favor, perdónanos, pero...",
+      "TXT": "¡Ayudarías inmensamente al proyecto al <strong>darle una buena calificación, si te gusta!</strong>"
+    },
     "DOMINA_MODE": {
       "FORM": {
         "HELP": "Repite la frase configurada cada X cuando se rastrea el tiempo en una tarea.",
@@ -201,7 +184,6 @@
         "TO_FOCUS_OVERLAY": "Para superposición de enfoque"
       },
       "BACK_TO_PLANNING": "Volver a la planificación",
-      "CANCEL_FOCUS_SESSION": "Cancelar sesión de enfoque",
       "CONGRATS": "¡Felicidades por completar esta sesión!",
       "CONTINUE_FOCUS_SESSION": "Continuar sesión de enfoque",
       "COUNTDOWN": "Cuenta atrás",
@@ -646,12 +628,8 @@
       "D": {
         "ADD_PLANNED": {
           "ADD_TO_TODAY": "Añadir a hoy",
+          "RE_PLAN_ALL": "Reprogramar todo",
           "TITLE": "Añadir tareas planificadas a Hoy"
-        },
-        "PLAN_FOR_DAY": {
-          "REMINDER_WARNING": "Esto eliminará el recordatorio de la tarea. Pulse Escape para cancelar.",
-          "REMOVE_PLAN_DATE": "Eliminar fecha del plan",
-          "TITLE": "Planificar la tarea del día"
         }
       },
       "EDIT_REPEATED_TASK": "Editar tarea repetida '{{taskName}}'",
@@ -881,11 +859,11 @@
     "SYNC": {
       "A": {
         "ARCHIVE_ONLY_UPLOADED": "Tus datos sólo se han cargado parcialmente. Inténtalo de nuevo más tarde. De lo contrario, no podrás sincronizar tus datos con otros dispositivos.",
-        "POSSIBLE_LEGACY_DATA": "Super Productivity ha mejorado la sincronización utilizando ahora dos archivos separados en lugar de uno solo, lo que permite una transferencia de datos mucho menor. Se recomienda actualizar todas las instancias de Super Productivity y sincronizar primero los datos de la instancia de la aplicación donde los datos son más recientes. Si estos son los datos de su dispositivo local, ignore esta advertencia y proceda a cargarlos confirmando el siguiente cuadro de diálogo."
+        "POSSIBLE_LEGACY_DATA": "Super Productivity ha mejorado la sincronización utilizando ahora dos archivos separados en lugar de uno solo, lo que permite una transferencia de datos mucho menor. Se recomienda actualizar todas las instancias de Super Productivity y sincronizar primero los datos de la instancia de la aplicación donde los datos son más recientes. Si estos son los datos de su dispositivo local, ignore esta advertencia y proceda a cargarlos confirmando el siguiente cuadro de diálogo.",
+        "REMOTE_MODEL_VERSION_NEWER": "La versión del modelo remoto es más reciente que la local. ¡Actualice su aplicación local a la versión más reciente!"
       },
       "C": {
         "EMPTY_SYNC": "Estás intentando sincronizar un objeto de datos vacío. ¿Es esta tu primera sincronización de una aplicación (casi) virgen?",
-        "FORCE_IMPORT": "¿Importar datos remotos de todos modos?",
         "FORCE_UPLOAD": "¿Subir datos locales de todos modos?",
         "FORCE_UPLOAD_AFTER_ERROR": "Se produjo un error al cargar sus datos locales. ¿Intentas forzar la actualización?",
         "MIGRATE_LEGACY": "Se detectaron datos heredados durante la importación, ¿desea intentar migrarlos?",
@@ -910,10 +888,21 @@
         "USE_LOCAL": "Usar local",
         "USE_REMOTE": "Usar control remoto"
       },
+      "D_DECRYPT_ERROR": {
+        "BTN_OVER_WRITE_REMOTE": "Cambiar y sobrescribir remoto",
+        "P1": "Sus datos están encriptados y el descifrado ha fallado. ¡Introduzca la contraseña correcta!",
+        "P2": "También puede cambiar su contraseña, lo que sobrescribirá todos los datos remotos."
+      },
       "D_INCOMPLETE_SYNC": {
         "BTN_CLOSE_APP": "Cerrar aplicación",
         "BTN_DOWNLOAD_BACKUP": "Descargar copia de seguridad local",
         "BTN_FORCE_UPLOAD": "Forzar carga local",
+        "P1": "¡Los datos de sincronización remota son incoherentes!",
+        "P2": "Modelo afectado:",
+        "P3": "Tienes 2 opciones:",
+        "P4": "1. Vaya a su otro dispositivo e intente hacer una sincronización completa allí.",
+        "P5": "2. Sobrescribe los datos remotos con tus datos locales. ¡Todos los cambios remotos se perderán!",
+        "P6": "Se recomienda crear una copia de seguridad de los datos sobrescritos!!",
         "T1": "¡La última sincronización no se completo!",
         "T2": "Sus datos de archivo no se cargaron correctamente durante la última sincronización:",
         "T3": "Tienes 2 opciones:",
@@ -961,6 +950,9 @@
       "S": {
         "ALREADY_IN_SYNC": "Ya sincronizados",
         "ALREADY_IN_SYNC_NO_LOCAL_CHANGES": "Sin cambios locales - Ya está sincronizado",
+        "BTN_CONFIGURE": "Configurar",
+        "BTN_FORCE_OVERWRITE": "Forzar sobrescritura",
+        "ERROR_DATA_IS_CURRENTLY_WRITTEN": "Los datos remotos se están escribiendo actualmente",
         "ERROR_FALLBACK_TO_BACKUP": "Algo salió mal al importar los datos. Volviendo a la copia de seguridad local.",
         "ERROR_INVALID_DATA": "Error al sincronizar. Datos inválidos",
         "ERROR_NO_REV": "No hay rev válida para el archivo remoto",
@@ -968,6 +960,7 @@
         "IMPORTING": "Importando datos",
         "INCOMPLETE_CFG": "Error de autenticación para sincronización. Por favor, compruebe su configuración.",
         "INITIAL_SYNC_ERROR": "Error de sincronización inicial",
+        "SUCCESS_DOWNLOAD": "Datos sincronizados desde el control remoto",
         "SUCCESS_IMPORT": "Datos importados",
         "SUCCESS_VIA_BUTTON": "Datos sincronizados correctamente",
         "UNKNOWN_ERROR": "Error desconocido durante la sincronización. Compruebe la consola.",
@@ -995,6 +988,9 @@
       },
       "S": {
         "UPDATED": "La configuración de etiquetas se actualizó"
+      },
+      "TTL": {
+        "ADD_NEW_TAG": "Agregar nueva etiqueta"
       }
     },
     "TASK": {
@@ -1015,6 +1011,7 @@
         "ADD_ATTACHMENT": "Agregar un adjunto",
         "ADD_SUB_TASK": "Agregar subtarea",
         "ATTACHMENTS": "Adjuntos {{nr}}",
+        "DUE": "Programado en",
         "FROM_PARENT": "(del padre)",
         "LOCAL_ATTACHMENTS": "Adjuntos locales",
         "NOTES": "Notas",
@@ -1022,7 +1019,6 @@
         "REMINDER": "Recordatorio",
         "REPEAT": "Repetir",
         "SCHEDULE_TASK": "Tarea programada",
-        "SCHEDULED_AT": "Programado en",
         "SUB_TASKS": "Subtareas ({{nr}})",
         "TIME": "hora",
         "TITLE_PLACEHOLDER": "Introduzca un título"
@@ -1047,7 +1043,8 @@
         "MARK_UNDONE": "Marcar como no realizada",
         "MOVE_TO_BACKLOG": "Mover al registro de trabajo",
         "MOVE_TO_OTHER_PROJECT": "Mover a otro proyecto",
-        "MOVE_TO_TODAY": "Mover a la lista de hoy",
+        "MOVE_TO_REGULAR": "Mover a la lista de hoy",
+        "MOVE_TO_TOP": "Pasar a la parte superior de la lista",
         "OPEN_ATTACH": "Adjuntar archivo o enlace",
         "OPEN_ISSUE": "Abrir problema en una nueva pestaña del navegador",
         "OPEN_TIME": "Estimar tiempo / Agregar tiempo empleado",
@@ -1059,8 +1056,10 @@
         "TOGGLE_DETAIL_PANEL": "Mostrar/Ocultar información adicional",
         "TOGGLE_DONE": "Marcar como realizada / no realizada",
         "TOGGLE_SUB_TASK_VISIBILITY": "Alternar visibilidad de subtareas",
+        "TOGGLE_TAGS": "Alternar etiquetas",
         "TRACK_TIME": "Comenzar el tiempo de seguimiento",
         "TRACK_TIME_STOP": "Pausar tiempo de seguimiento",
+        "UNSCHEDULE_TASK": "Desprogramar tarea",
         "UPDATE_ISSUE_DATA": "Actualizar datos de problemas"
       },
       "D_CONFIRM_SHORT_SYNTAX_NEW_TAG": {
@@ -1074,8 +1073,6 @@
       "D_REMINDER_VIEW": {
         "ADD_ALL_TO_TODAY": "Agregar todo a hoy",
         "ADD_TO_TODAY": "Agregar a hoy",
-        "DISMISS": "Descartar recordatorio",
-        "DISMISS_ALL": "Descartar todo",
         "DONE": "hecho",
         "DUE_TASK": "Tarea vencida",
         "DUE_TASKS": "Tareas vencidas",
@@ -1088,7 +1085,9 @@
         "SNOOZE": "Posponer",
         "SNOOZE_ALL": "Posponer todo",
         "START": "Iniciar tarea",
-        "SWITCH_CONTEXT_START": "Cambiar contexto e inicio"
+        "SWITCH_CONTEXT_START": "Cambiar contexto e inicio",
+        "UNSCHEDULE": "Desprogramar",
+        "UNSCHEDULE_ALL": "Desprogramar todo"
       },
       "D_SCHEDULE_TASK": {
         "MOVE_TO_BACKLOG": "Mover la tarea al registro de trabajos hasta que sea programado",
@@ -1136,6 +1135,7 @@
         "FOUND_MOVE_FROM_OTHER_LIST": "Se agregó la tarea <strong>{{title}}</strong> de <strong>{{contextTitle}}</strong> a la lista actual",
         "FOUND_RESTORE_FROM_ARCHIVE": "Tarea restaurada <strong>{{title}}</strong> relacionada con el problema desde el archivo",
         "LAST_TAG_DELETION_WARNING": "Estás intentando eliminar la última etiqueta de una tarea que no es de proyecto. ¡Esto no esta permitido!",
+        "MOVED_TO_ARCHIVE": "Se han movido {{nr}} tareas al archivo",
         "MOVED_TO_PROJECT": "Movida la tarea \"{{taskTitle}}\" al proyecto \"{{projectTitle}}\"",
         "MOVED_TO_PROJECT_ACTION": "Ir al proyecto",
         "REMINDER_ADDED": "Tarea programada \"{{title}}\"",
@@ -1214,7 +1214,7 @@
         "Q_DAILY": "Cada día",
         "Q_MONDAY_TO_FRIDAY": "De lunes a viernes",
         "Q_MONTHLY_CURRENT_DATE": "El {{dateDayStr}}de cada mes",
-        "Q_WEEKLY_CURRENT_WEEKDAY": "Cada semana los {{weekdayStr} }",
+        "Q_WEEKLY_CURRENT_WEEKDAY": "Cada semana los {{weekdayStr}}",
         "Q_YEARLY_CURRENT_DATE": "Cada año, el {{dayAndMonthStr}}",
         "QUICK_SETTING": "Repetir configuración",
         "REMIND_AT": "Recordar en",
@@ -1260,6 +1260,7 @@
       "D_TRACKING_REMINDER": {
         "CREATE_AND_TRACK": "<em>Crear</em> y realizar un seguimiento de",
         "IDLE_FOR": "Has estado inactivo por:",
+        "NOTIFICATION_TITLE": "¡Registra tu tiempo!",
         "TASK": "Tarea",
         "TRACK_TO": "Seguimiento a:",
         "UNTRACKED_TIME": "Tiempo sin seguimiento:"
@@ -1326,6 +1327,8 @@
     "EXPORT_DATA": "Exportar datos",
     "IMPORT_FROM_FILE": "Importar desde archivo",
     "PRIVACY_EXPORT": "Exportación de datos anonimizados (para enviarlos a contact@super-productivity.com para su depuración)",
+    "S_BACKUP_DOWNLOADED": "Copia de seguridad descargada en la carpeta de documentos de Android",
+    "S_ERR_IMPORT_FAILED": "Error en la importación de datos",
     "S_ERR_INVALID_DATA": "Falló la importación: JSON no válido"
   },
   "G": {
@@ -1343,6 +1346,7 @@
     "EXTENSION_INFO": "Por favor descargue <a target=\"_blank\" href=\"https://chrome.google.com/webstore/detail/super-productivity/ljkbjodfmekklcoibdnhahlaalhihmlb\"> la extensión de Chrome</a> para permitir la comunicación con Jira Api y Idle Time Handling. Tenga en cuenta que esto no funciona para móviles.",
     "HIDE": "Ocultar",
     "ICON_INP_DESCRIPTION": "También se admiten todos los emojis utf-8.",
+    "INBOX_PROJECT_TITLE": "Bandeja de entrada",
     "LOGIN": "Iniciar sesión",
     "LOGOUT": "Cerrar sesión",
     "MINUTES": "{{m}} minutos",
@@ -1352,6 +1356,7 @@
     "NO_CON": "Actualmente estás desconectado. Por favor, vuelva a conectarse a internet.",
     "NONE": "Ninguna",
     "OK": "De acuerdo",
+    "OVERDUE": "Vencido",
     "PREVIOUS": "Anterior",
     "REMOVE": "Retirar",
     "RESET": "Reiniciar",
@@ -1424,7 +1429,7 @@
       "MOVE_TASK_TO_TOP": "Mover la tarea al principio de la lista",
       "MOVE_TASK_UP": "Mover la tarea hacia arriba en la lista",
       "MOVE_TO_BACKLOG": "Mover la tarea al registro de trabajo",
-      "MOVE_TO_TODAYS_TASKS": "Mueve la tarea a la lista de tareas de hoy",
+      "MOVE_TO_REGULARS_TASKS": "Mueve la tarea a la lista de tareas de hoy",
       "OPEN_PROJECT_NOTES": "Mostrar/Ocultar Notas del Proyecto",
       "SAVE_NOTE": "Guardar nota",
       "SELECT_NEXT_TASK": "Seleccionar tarea siguiente",
@@ -1494,6 +1499,7 @@
       "IS_DISABLE_ANIMATIONS": "Deshabilitar todas las animaciones",
       "IS_HIDE_NAV": "Ocultar la navegación hasta que se desplace sobre el encabezado principal (solo para escritorio)",
       "IS_MINIMIZE_TO_TRAY": "Minimizar a la bandeja (solo escritorio)",
+      "IS_SHOW_TIP_LONGER": "Mostrar consejo de productividad en la aplicación iniciar un poco más de tiempo",
       "IS_TRAY_SHOW_CURRENT_TASK": "Mostrar la tarea actual en el menú de bandeja / estado (solo escritorio)",
       "IS_TURN_OFF_MARKDOWN": "Desactivar la sintaxis markdown para las notas",
       "IS_USE_MINIMAL_SIDE_NAV": "Utilice una barra de navegación mínima (muestre sólo iconos)",
@@ -1546,6 +1552,7 @@
       "DONE_SOUND": "Sonido de tarea realizada",
       "IS_INCREASE_DONE_PITCH": "Aumente el tono para cada tarea realizada",
       "TITLE": "Sonido",
+      "TRACK_TIME_SOUND": "Sonido de recordatorio de tiempo de seguimiento",
       "VOLUME": "Volumen"
     },
     "TAKE_A_BREAK": {
@@ -1570,6 +1577,8 @@
       "L_IS_AUTO_START_NEXT_TASK": "Iniciar el seguimiento de la siguiente tarea al marcar la actual como realizada",
       "L_IS_NOTIFY_WHEN_TIME_ESTIMATE_EXCEEDED": "Notificar cuando se supere el tiempo estimado",
       "L_IS_TRACKING_REMINDER_ENABLED": "Recordatorio de seguimiento activado",
+      "L_IS_TRACKING_REMINDER_FOCUS_WINDOW": "Ventana de la aplicación Focus cuando el recordatorio está activo (solo para escritorio)",
+      "L_IS_TRACKING_REMINDER_NOTIFY": "Notificar cuando se muestra el recordatorio de seguimiento de tiempo",
       "L_IS_TRACKING_REMINDER_SHOW_ON_MOBILE": "Mostrar recordatorio de seguimiento en la aplicación móvil",
       "L_TRACKING_INTERVAL": "Intervalo de seguimiento temporal (EXPERIMENTAL)",
       "L_TRACKING_REMINDER_MIN_TIME": "Tiempo de espera antes de mostrar el recordatorio de seguimiento Banner",
@@ -1602,6 +1611,7 @@
   },
   "MH": {
     "ADD_NEW_TASK": "Agregar nueva tarea",
+    "ALL_PLANNED_LIST": "Repetición/Programado",
     "BOARDS": "Tableros",
     "CREATE_PROJECT": "Crear proyecto",
     "CREATE_TAG": "Crear etiqueta",
@@ -1620,6 +1630,7 @@
       "SYNC": "Cómo configurar la sincronización"
     },
     "METRICS": "Métrica",
+    "NO_PROJECT_INFO": "No hay proyectos disponibles. Puede crear un nuevo proyecto haciendo clic en el botón \"Crear proyecto\".",
     "NO_TAG_INFO": "Actualmente no hay etiquetas. Puede añadir etiquetas introduciendo `#yourTagName` al añadir o editar tareas.",
     "NOTES": "Notas",
     "NOTES_PANEL_INFO": "Las notas sólo pueden mostrarse desde la línea de tiempo y las vistas normales de la lista de tareas.",
@@ -1629,7 +1640,6 @@
     "PROJECT_SETTINGS": "Ajustes del proyecto",
     "PROJECTS": "Proyectos",
     "QUICK_HISTORY": "Historia rápida",
-    "REPEAT_SCHEDULED": "Repetición/Programado",
     "SCHEDULE": "Calendario",
     "SETTINGS": "Ajustes",
     "SHOW_SEARCH_BAR": "Mostrar barra de búsqueda",
@@ -1643,7 +1653,15 @@
     "TRIGGER_SYNC": "Activar la sincronización manualmente",
     "WORKLOG": "Registro de trabajo"
   },
+  "MIGRATE": {
+    "C_DOWNLOAD_BACKUP": "¿Desea descargar una copia de seguridad de sus datos heredados (se puede utilizar con versiones anteriores de Super Productivity)?",
+    "DETECTED_LEGACY": "Datos heredados detectados. ¡Lo migraremos por ti!",
+    "E_MIGRATION_FAILED": "¡Falló la migración! con Error:",
+    "E_RESTART_FAILED": "Error de reinicio automático. ¡Reinicie la aplicación manualmente!",
+    "SUCCESS": "¡Migración ya está hecha! Reiniciando la aplicación ahora..."
+  },
   "PDS": {
+    "ADD_TASKS_FROM_TODAY": "Añade tareas a partir de hoy",
     "BACK": "!Espera me olvidé de algo!",
     "BREAK_LABEL": "Descansos (nr/tiempo)",
     "CELEBRATE": "¡Tómate un momento para celebrar <i>!</i>",
@@ -1698,7 +1716,7 @@
     "NO_SCHEDULED_TITLE": "Tareas programadas para el día",
     "REPEATED_TASKS": "Tareas repetidas",
     "SCHEDULED_TASKS": "Tareas programadas",
-    "SCHEDULED_TASKS_WITH_REMINDER": "Tareas programadas con recordatorio",
+    "SCHEDULED_TASKS_WITH_TIME": "Tareas programadas con recordatorio",
     "START_TASK": "Inicie la tarea ahora y elimine el recordatorio"
   },
   "THEMES": {
@@ -1722,6 +1740,7 @@
   "V": {
     "E_1TO10": "Ingresa un valor entre 1 y 10",
     "E_DATETIME": "¡El valor ingresado no es una fecha y hora!",
+    "E_DURATION": "Introduzca una duración válida (por ejemplo, 1 hora)",
     "E_MAX": "No debe ser más grande que {{val}}",
     "E_MAX_LENGTH": "Debe tener una longitud máxima de {{val}} caracteres",
     "E_MIN": "Debería ser menor que {{val}}",
@@ -1731,17 +1750,17 @@
   },
   "WW": {
     "ADD_MORE": "Agregar más",
-    "ADD_SCHEDULED_FOR_TODAY": "Agregar tareas planificadas para hoy ({{nr}})",
     "ADD_SCHEDULED_FOR_TOMORROW": "Agregar tareas planificadas para mañana ({{nr}})",
     "ADD_SOME_TASKS": "¡Agrega algunas tareas para planificar tu día!",
-    "COMPLETED_TASKS": "Tareas completadas",
+    "DONE_TASKS": "Tareas finalizadas",
     "ESTIMATE_REMAINING": "Estimación restante:",
     "FINISH_DAY": "Fin de día",
     "FINISH_DAY_FOR_PROJECT": "Fin de día pra este Proyecto",
     "FINISH_DAY_FOR_TAG": "Fin de día pra esta Etiqueta",
     "FINISH_DAY_TOOLTIP": "Evalúa tu día, mueve todas las tareas realizadas al archivo (opcionalmente) y/o planifica tu día siguiente.",
     "HELP_PROCRASTINATION": "Ayuda, ¡estoy procrastinando!",
-    "NO_COMPLETED_TASKS": "Actualmente no hay tareas completadas.",
+    "MOVE_DONE_TO_ARCHIVE": "Mover realizado al archivo",
+    "NO_DONE_TASKS": "Actualmente no hay tareas terminadas",
     "NO_PLANNED_TASKS": "No hay tareas planificadas",
     "READY_TO_WORK": "¡Listo para trabajar!",
     "RESET_BREAK_TIMER": "Restablecer sin temporizador de pausa",
